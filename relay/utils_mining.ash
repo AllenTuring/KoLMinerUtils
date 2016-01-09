@@ -7,33 +7,25 @@
      I'm glad you're using this but I have
              enough mail already :P
 
-   This script should not be invoked with
-   gCLI. It is meant to be a utilities suite
-   for other scripts.
+	====================================
+
+    This script should not be invoked with
+    gCLI. It is meant to be a utilities suite
+    for other scripts.
+
+		Up-to-date as of January 8, 2016.
 
 **********************************************/
 
 // Documentation Notes
 /***
+http://kol.coldfront.net/thekolwiki/index.php/Mining
+
 Intent: Mining utilities for use in other scripts.
 Domain: Executable ASH Scripts in the Mafia utility
   for the Kingdom of Loathing
   (http://www.kingdomofloathing.com/)
 
-Notes:
-  To cut down on filesize and complexity, this script
-  will only be concerned with general functions for
-  mining, and not concern itself with any specific
-  mine in the Kingdom of Loathing.
-
-  All functions in this suite will start with
-  utils_mining_ to avoid collisions. Specific fields
-  and variables will be named with camelCase.
-
-Contributors:
-> Allen Jiang (eliteaccordion)
-  - GitHub: AllenTuring
-  - LinkedIn: http://allenjiang.rocks/
 ***/
 
 /** PLAYERSTATE **/
@@ -57,6 +49,7 @@ boolean utils_mining_wearingMiningGear() {
   // 1 - Has no adventures left.
   // 2 - Beaten up.
   // 3 - Drunk. Good luck.
+  // 4 - Improperly equipped.
 int utils_mining_canMine() {
 	//Check if the player is not drunk.
 	if(my_inebriety() > inebriety_limit()) {
@@ -71,6 +64,10 @@ int utils_mining_canMine() {
 	//Checks that the player is not beaten up
 	if (have_effect($effect[Beaten Up]) != 0) {
 		return 3;
+	}
+
+	if (!utils_mining_wearingMiningGear()) {
+		return 4;
 	}
 
 	return 0;
