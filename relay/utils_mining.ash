@@ -76,3 +76,16 @@ int utils_mining_canMine() {
 /** MINE PARSING **/
 // These functions are concerned with the parsing of
 // the mine's data.
+
+/** ACTIONS */
+// These functions do stuff. Use with caution.
+
+// Your password hash, for POST requests.
+string pwhash = "&pwd=" + my_hash();
+
+// Mines at a specified spot in a given mine.
+buffer utils_mining_mineAtSpot(int mineCode, int col, int row) {
+	string url = "mining.php?mine=" + mineCode;
+	url = url + "&which=" + (col + (8 * row)) + utils_mining_pwhash;
+	return visit_url(url, true);
+}
