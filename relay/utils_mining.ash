@@ -26,9 +26,57 @@ Domain: Executable ASH Scripts in the Mafia utility
   for the Kingdom of Loathing
   (http://www.kingdomofloathing.com/)
 
+Full documentation:
+https://github.com/AllenTuring/KoLMinerUtils/wiki/Documentation
+
 ***/
 
-/** PLAYERSTATE **/
+/** MINE INFORMATION **/
+// These functions are concerned with the passive mine state.
+// And do not require the mine to be loaded.
+// They do not perform any actions.
+
+int[string] utils_mining_mineCodesByName;
+utils_mining_mineNamesByMineCode["The Velvet / Gold Mine (Mining)"] = 6;
+
+// Returns the mineCode of a mine by name, consistent with getMineName
+// Not case-sensitive.
+int utils_mining_getMineCodeExact(string mine) {
+	if (utils_mining_mineCodesByName contains mine) {
+		return utils_mining_mineCodesByName[mine];
+	}
+	return -1;
+}
+
+// Returns the mineCode of a mine by name or partial match thereof.
+int utils_mining_getMineCode(string mine) {
+	int exact = utils_mining_getMineCodeExact(mine);
+	if (exact != -1) {
+		return exact;
+	}
+
+	mine = to_lower_case(mine);
+	matcher match = create_matcher(mine, "");
+	for name, code in utils_mining_mineCodesByName {
+		match.reset(name);
+		if match.find(); {
+			return code;
+		}
+	}
+	return -1;
+}
+
+// Returns the name of the mine based off of mineCode.
+string utils_mining_getMineName(int mineCode) {
+	for name, code in utils_mining_mineCodesByName {
+		if (mineCode == code) {
+			return name;
+		}
+	}
+	return "Mine code unknown.";
+}
+
+/** PLAYER INFORMATION **/
 // These functions are concerned with the playerstate
 // And do not require the mine to be loaded.
 // They do not perform any actions.
@@ -44,13 +92,8 @@ boolean utils_mining_wearingMiningGear() {
 // Checks whether or not the player is fit to mine.
 // Does not check for access to a specific mine.
 // Does not check for mining gear (some mines have special gear.)
-// Return codes:
-  // 0 - Fit to mine.
-  // 1 - Has no adventures left.
-  // 2 - Beaten up.
-  // 3 - Drunk. Good luck.
-  // 4 - Improperly equipped.
-int utils_mining_canMine() {
+// Return codes are listed on the project wiki.
+int utils_mining_canAdventure() {
 	//Check if the player is not drunk.
 	if(my_inebriety() > inebriety_limit()) {
 		return 1;
@@ -66,8 +109,19 @@ int utils_mining_canMine() {
 		return 3;
 	}
 
-	if (!utils_mining_wearingMiningGear()) {
-		return 4;
+	return 0;
+}
+
+int utils_mining_canMine(int MineCode) {
+	//Check canAdventure();
+	int advcheck = utils_mining_canAdventure();
+	if(advcheck != 0) {
+		return advcheck;
+	}
+	
+	//Checks that the player is not beaten up
+	if (have_effect($effect[Beaten Up]) != 0) {
+		return 3;
 	}
 
 	return 0;
