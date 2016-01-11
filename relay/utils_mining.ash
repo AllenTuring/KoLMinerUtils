@@ -81,7 +81,7 @@ int utils_mining_canMine() {
 // These functions do stuff. Use with caution.
 
 // Your password hash, for POST requests.
-string pwhash = "&pwd=" + my_hash();
+string utils_mining_pwhash = "&pwd=" + my_hash();
 
 // Mines at a specified spot in a given mine.
 buffer utils_mining_mineAtSpot(int mineCode, int col, int row) {
