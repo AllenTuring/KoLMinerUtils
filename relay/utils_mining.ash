@@ -37,7 +37,9 @@ https://github.com/AllenTuring/KoLMinerUtils/wiki/Documentation
 // They do not perform any actions.
 
 int[string] utils_mining_mineCodesByName;
-utils_mining_mineNamesByMineCode["The Velvet / Gold Mine (Mining)"] = 6;
+utils_mining_mineNamesByMineCode["Itznotyerzitz Mine"] = 1;
+utils_mining_mineNamesByMineCode["The Knob Shaft"] = 2;
+utils_mining_mineNamesByMineCode["The Velvet / Gold Mine"] = 6;
 
 // Returns the mineCode of a mine by name, consistent with getMineName
 // Not case-sensitive.
