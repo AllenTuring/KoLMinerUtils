@@ -38,7 +38,7 @@ Domain: Executable ASH Scripts in the Mafia utility
 boolean utils_mining_wearingMiningGear() {
 	return is_wearing_outfit("Mining Gear")
 	|| is_wearing_outfit("Dwarvish War Uniform")
-	|| (my_path() == "Way of the Surprising Fist" && have_effect($effect[Earthen Fist]))
+	|| (my_path() == "Way of the Surprising Fist" && have_effect($effect[Earthen Fist]) > 0)
 }
 
 // Checks whether or not the player is fit to mine.
