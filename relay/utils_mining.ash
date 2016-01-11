@@ -89,3 +89,9 @@ buffer utils_mining_mineAtSpot(int mineCode, int col, int row) {
 	url = url + "&which=" + (col + (8 * row)) + utils_mining_pwhash;
 	return visit_url(url, true);
 }
+
+// Resets a given mine.
+buffer utils_mining_mineAtSpot(int mineCode) {
+	string url = "mining.php?reset=1&mine=" + mineCode + utils_mining_pwhash;
+	return visit_url(url, true);
+}
